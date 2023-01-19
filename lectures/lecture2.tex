@@ -1,0 +1,27 @@
+\section{January 11, 2022}
+\subsection{OLS as ERM}
+\textbf{Regression} is class of statistical/computational methods that seek to estimate relationships between a dependent (target) variable and independent variables (instances/features/inputs).
+There are many different techniques used for regression: linear regression, support vector machines, neural networks, K-nearest neighbours, random forest.
+The differences among the methods boils down to two factors: how we choose represent the function/hypothesis $f: X \to Y$ and what \textit{loss function} we choose to measure the 'goodness' of our model. 
+In linear regression we assume the $f$ function we are seeking belongs to the class of linear functions, which we denoted as:  $\SF = \{\bw \cdot \bx | w \in \RR^d \}$ or in a expanded form:
+$$
+f(x) = w_0 + w_1 x_1 + \cdots + w_d x_d
+$$
+Now given a data set of input variables $\bx$ and labels $y$, how can we reasonably find the weights $\bw$? One reasonable approach is to find $\bw$ such that $\bw \cdot \bx$ is close to $y$.
+There are many different loss functions to find the weight vector $w \in \RR^d$
+The \textbf{least squares or L2 loss} is $V(f,z) = (y - f(x))^2$. In this setting  we let $X = \RR^d$ and $Y \subset \RR$. 
+\subsection{Linear Alebra facts}
+Properties of Gram matrix:
+\begin{itemize}
+    \item $A = X^T X$ is called the \vocab{gram matrix}
+    \item $A$ is a \textit{symmetric} matrix (i.e., $A^T = A$). This implies that null$(A)$ $\perp$ Col$(A)$ and there exists an orthonormal basis.
+    \item $A = \sum_{i}x_ix_{i}^T$ is the sum of rank $1$-matrices.
+    \item $A$ is \textbf{semi-definite} ($u^TAu \geq 0$)
+    \item Nullspace of $A$ coincides with null space of $X$; Null(X) = Null(A) = $\{v \in \RR^d : Av =0\}$
+    \item $X^T X$ is invertible $\iff$ $X$ is invertible $\iff$ $X$ has a null space of dimension zero $\iff$ all columns of $X$ are independent
+    \item The \textit{inverse} of non-square matrices is not defined. The \textbf{left inverse} is given by $X^{\dag} := (X^TX)^{-1}X^T $
+\end{itemize}
+When solving the equation $Aw =b$ there are three possibilities: (1) There exists a unique solution if $A$ is invertible (2) infinitely many solutions if $b \perp$ null($A$) (3) No solutions when $b \not\perp$ null($A$). Since in the OLS case $b = X^Ty$ the condition $b \perp$ null($A$) is always satisfied.\footnote{Thus we always have at least one solution to OLS}
+\subsection{Spectral decomposition}
+Since A is a \textit{real symmetric} matrix there exits an orthonormal basis $\{u_1, \cdots, u_d\}$ for $\RR^d$ consisting of egienvectors.\footnote{This is known as the spectral theorem for symmetric matrices}
+\subsection{Projection Prospective of OLS}

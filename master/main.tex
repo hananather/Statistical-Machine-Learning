@@ -1,0 +1,226 @@
+\documentclass[10pt,twoside=semi,openright,numbers=noenddot]{scrartcl}
+
+\input{packages}
+\input{master/commands}
+\input{master/box}
+\input{master/colours}
+
+
+
+
+
+\addtolength{\textheight}{3.14cm}
+\setlength{\footskip}{0.5in}
+\setlength{\headsep}{10pt}
+
+
+\automark[subsection]{section}
+
+
+\rohead{\footnotesize\thepage}
+\rehead{\footnotesize \textbf{\sffamily Statistical Machine Learning}, Hanan Ather}
+% More script letters etc.
+
+
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={green!50!black},
+    urlcolor={blue!80!black}
+}
+
+
+\mdfdefinestyle{mdbluebox**}{%
+	linewidth=0.5pt,
+	skipabove=12pt,
+	frametitleaboveskip=5pt,
+	frametitlebelowskip=0pt,
+	skipbelow=2pt,
+	frametitlefont=\bfseries,
+	innertopmargin=4pt,
+	innerbottommargin=8pt,
+	nobreak=true,
+	linecolor=Blue!70!black,
+	backgroundcolor=TealBlue!5,
+	nobreak=true,
+}
+\declaretheoremstyle[
+	headfont=\bfseries\color{RawSienna},
+	mdframed={style=mdredbox},
+	headpunct={\\[3pt]},
+	postheadspace={0pt},
+]{thmredbox}
+
+
+
+
+%% red boxes
+%% red box square
+\mdfdefinestyle{mdredbox}{%
+	linewidth=0.5pt,
+	skipabove=12pt,
+	frametitleaboveskip=5pt,
+	frametitlebelowskip=0pt,
+	skipbelow=2pt,
+	frametitlefont=\bfseries,
+	innertopmargin=4pt,
+	innerbottommargin=8pt,
+	nobreak=true,
+	linecolor=RawSienna,
+	backgroundcolor=Salmon!5,
+}
+\declaretheoremstyle[
+	headfont=\bfseries\color{RawSienna},
+	mdframed={style=mdredbox},
+	headpunct={\\[3pt]},
+	postheadspace={0pt},
+]{thmredbox}
+
+%% red box line
+
+
+\mdfdefinestyle{mdredbox}{%
+	skipabove=8pt,
+	linewidth=2pt,
+	rightline=false,
+	leftline=true,
+	topline=false,
+	bottomline=false,
+	linecolor=RawSienna,
+	backgroundcolor=Salmon!5,
+}
+\declaretheoremstyle[
+	headfont=\bfseries\sffamily\color{RawSienna},
+	bodyfont=\normalfont,
+	spaceabove=2pt,
+	spacebelow=1pt,
+	mdframed={style=mdredbox*},
+	headpunct={ --- },
+]{thmredbox*}
+
+
+
+\mdfdefinestyle{mdgreenbox}{%
+	skipabove=8pt,
+	linewidth=2pt,
+	rightline=false,
+	leftline=true,
+	topline=false,
+	bottomline=false,
+	linecolor=ForestGreen,
+	backgroundcolor=ForestGreen!5,
+	nobreak=true,
+}
+\declaretheoremstyle[
+	headfont=\bfseries\sffamily\color{ForestGreen!70!black},
+	bodyfont=\normalfont,
+	spaceabove=2pt,
+	spacebelow=1pt,
+	mdframed={style=mdgreenbox},
+	headpunct={ --- },
+]{thmgreenbox}
+\declaretheoremstyle[
+	headfont=\bfseries\sffamily\color{ForestGreen!70!black},
+	bodyfont=\normalfont,
+	spaceabove=2pt,
+	spacebelow=1pt,
+	mdframed={style=mdgreenbox},
+	headpunct={},
+]{thmgreenbox*}
+
+
+%% New Green box
+\mdfdefinestyle{mdgreenbox**}{%
+	skipabove=8pt,
+	linewidth=1pt,
+	rightline=true,
+	leftline=true,
+	topline=true,
+	bottomline=true,
+	linecolor=ForestGreen,
+	backgroundcolor=ForestGreen!5,
+	nobreak=true
+}
+\declaretheoremstyle[
+	headfont=\bfseries\sffamily\color{ForestGreen!70!black},
+	bodyfont=\normalfont,
+	spaceabove=2pt,
+	spacebelow=1pt,
+	mdframed={style=mdgreenbox**},
+	headpunct={ --- },
+]{thmgreenbox**}
+
+
+\mdfdefinestyle{mdblackbox}{%
+	skipabove=8pt,
+	linewidth=1.5pt,
+	rightline=false,
+	leftline=true,
+	topline=false,
+	bottomline=false,
+	linecolor=black,
+	backgroundcolor=RedViolet!5!gray!5,
+	nobreak=true,
+}
+\declaretheoremstyle[
+	headfont=\bfseries,
+	bodyfont=\normalfont,
+	spaceabove=2pt,
+	spacebelow=1pt,
+	mdframed={style=mdblackbox},
+	headpunct={ --- }
+]{thmblackbox}
+
+
+
+
+
+
+\declaretheorem[%
+style=thmgreenbox**,name=Theorem,numberwithin=section]{theorem}
+\declaretheorem[style=thmgreenbox,name=Lemma,sibling=theorem]{lemma}
+\declaretheorem[style=thmbluebox,name=Corollary,sibling=theorem]{corollary}
+\declaretheorem[name=Example,sibling=theorem]{example}
+\declaretheorem[style=thmbluebox*,name=Definition,sibling=theorem]{definition}
+\declaretheorem[name=Proposition,sibling=theorem]{proposition}
+
+\newenvironment{moral}{%
+	\begin{mdframed}[linecolor=green!70!black]%
+	\bfseries\color{green!50!black}}%
+	{\end{mdframed}}
+
+
+\newenvironment{question}{%
+	\begin{mdframed}[linecolor=red!70!black]%
+	\bfseries\color{RawSienna}%
+	\color{black} \textbf{Question:}} 
+	{\end{mdframed}}
+
+
+\declaretheoremstyle[
+	headfont=\bfseries\color{RawSienna},
+	mdframed={style=mdredbox},
+	headpunct={\\[3pt]},
+	postheadspace={0pt},
+]{thmredbox}
+
+
+
+\title{Statistical Machine Learning}
+\subtitle{MAT 5314}
+\author{Hanan Ather}
+\date{Winter 2022}
+
+
+
+
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\input{lectures/abstract}
+\input{lectures/lecture1.tex}
+\input{lectures/lecture2.tex}
+\end{document}
