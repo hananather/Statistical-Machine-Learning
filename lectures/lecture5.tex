@@ -1,0 +1,22 @@
+\section{January 23, 2023}
+\subsection{Linear Discriminant Analysis}
+Suppose we have 2 classes and  $d-$dimensional samples, $\boldsymbol{x_1, \dots, x_n}$ where $n_1$ samples come from first class and $n_2$ samples come from second class. 
+Consider a project on a line, where we let the direction of the line be given by a vector
+$\boldsymbol{v}$. The dot product of $\boldsymbol{v^tx_i}$ is the distance of projection 
+of $\boldsymbol{x_i}$ from the origin. Therefore, $\boldsymbol{v^tx_i}$ is the projection of $\boldsymbol{x_i}$ into a one dimensional subspace.
+Let  $\Tilde{\mu_1}$ and $\Tilde{\mu_2}$ be the means of the projections of classes 1 and 2, and let $\mu_1$ and $\mu_2$ be the means of the classes 1 and 2.
+\\
+We define \vocab{scatter} as 
+$$
+s = \sum_{i=1}^{n} (z_i - \mu_z)^2
+$$
+which measures the spread of the data around the mean just as variance, however, its just on a different scale. 
+Fisher's idea for LDA was to normalize $\Tilde{\mu_1} - \Tilde{\mu_2}$ by scatter. 
+Let $y_i = \boldsymbol{v^tx_i}$, the scatter for the projected samples of class 1 is 
+$$
+\Tilde{s_1}^2 =\sum_{y_i \in \text{Class 1}}(y_i - \Tilde{\mu_1})^2 
+$$
+and scatter for projected samples of class 2 is
+$$
+\Tilde{s_2}^2 =\sum_{y_i \in \text{Class 2}}(y_i - \Tilde{\mu_2})^2 
+$$
