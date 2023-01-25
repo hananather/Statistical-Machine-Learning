@@ -18,7 +18,8 @@ We store the data into two matrices: $y$ is an $m \times 1$ column vector contai
 \end{equation}
 The $w$ which minimizes (\ref{OLS objective}) $\Leftrightarrow$ solves $Aw = b$ where $b = X^Ty$ and $A = X^TX$. 
 Let $\SM = \{w|Aw =b \}$ be the set of minimizers (\ref{OLS objective}) and let 
-$\SN =$ ker $A \subset \RR^d$. Since $A = X^TX$ is a symmetric matrix by construction, from linear algebra we know  $\SN \perp$ Col $A$.
+$\SN =$ ker $A \subset \RR^d$. Since $A = X^TX$ is a symmetric matrix by construction, we know from linear algebra that $\SN \perp$ Col $A$. Therefore,  $b = X^Ty \in $ Col$(A)$, which implies there exists at least one minimizer to (\ref{OLS objective}) or equivalently, $\SM \neq \varnothing$
+\footnote{When $A = X^TX$ is \textit{invertible} there is a unique solution, otherwise, there are infinitely many solutions}.
 
 
 
@@ -35,6 +36,23 @@ Properties of Gram matrix:
 \end{itemize}
 When solving the equation $Aw =b$ there are three possibilities: (1) There exists a unique solution if $A$ is invertible (2) infinitely many solutions if $b \perp$ null($A$) (3) No solutions when $b \not\perp$ null($A$). Since in the OLS case $b = X^Ty$ the condition $b \perp$ null($A$) is always satisfied.\footnote{Thus we always have at least one solution to OLS}
 \subsection{Spectral decomposition}
+\begin{itemize}
+    \item We have \textit{basis of eigenvectors} $u_1, u_2, \dots$ for $A$; 
+    real eigenvalues $\lambda_i \geq 0$, indexed in ascending order
+    \item $\SN$ is span span of $u_i$ with $\lambda_i = 0$, let $r =$dim($\SN$).
+    \item In terms of basis $\{u_i\}$, write $w = \sum \alpha_i u_i$ and $b = \beta_i u_i$.
+    \item Matrix equation $Aw = b$ can be re-written in terms of eigenvalues and eigen vectors
+        $$
+        \sum_{i > r} \alpha_i \lambda_i u_i = \sum_{i > 0} \beta_i u_i 
+        $$
+    \item there exists a unique solution if and only if $\beta_1, \dots, \beta_r = 0$ 
+    (i.e., $b \perp \SN$) \footnote{\term{why? please look into this and explain this in the notes}}
+
+    \item And $w = \sum \alpha_i u_i$ if and only if $\alpha_i = \frac{\beta_i}{\lambda_i}, \forall i > r$
+    
+    \item $\alpha_1, \dots, \alpha_r$ are arbitrary due to the fact we that we have a degree of freedom for every $\lambda_1, \dots, \lambda_r = 0$.
+\end{itemize}
+
 Since A is a \textit{real symmetric} matrix there exits an orthonormal basis $\{u_1, \cdots, u_d\}$ for $\RR^d$ consisting of egienvectors.\footnote{This is known as the spectral theorem for symmetric matrices}
-\subsection{Projection Prospective of OLS}
+
  
