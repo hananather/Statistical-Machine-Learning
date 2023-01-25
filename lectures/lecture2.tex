@@ -10,7 +10,19 @@ $$
 Now given a data set of input variables $\bx$ and labels $y$, how can we reasonably find the weights $\bw$? One reasonable approach is to find $\bw$ such that $\bw \cdot \bx$ is close to $y$.
 There are many different loss functions to find the weight vector $w \in \RR^d$
 The \textbf{least squares or L2 loss} is $V(f,z) = (y - f(x))^2$. In this setting  we let $X = \RR^d$ and $Y \subset \RR$. 
-\subsection{Linear Alebra facts}
+\subsection{Mathematical formalization of linear regression}
+We store the data into two matrices: $y$ is an $m \times 1$ column vector containing \textit{labels}, and $X$ is a $m \times d$ matrix containing \textit{inputs} or \textit{features}. We define an \textit{objective function} on $\RR^d$
+
+\begin{equation}\label{OLS objective}
+    J(w) = \parallel y - w\cdot x \parallel^2
+\end{equation}
+The $w$ which minimizes (\ref{OLS objective}) $\Leftrightarrow$ solves $Aw = b$ where $b = X^Ty$ and $A = X^TX$. 
+Let $\SM = \{w|Aw =b \}$ be the set of minimizers (\ref{OLS objective}) and let 
+$\SN =$ ker $A \subset \RR^d$. Since $A = X^TX$ is a symmetric matrix by construction, from linear algebra we know  $\SN \perp$ Col $A$.
+
+
+
+\subsection{Linear Algebra facts}
 Properties of Gram matrix:
 \begin{itemize}
     \item $A = X^T X$ is called the \vocab{gram matrix}
