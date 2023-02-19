@@ -1,2 +1,128 @@
+\newpage
 \section{January 16, 2023}
 \subsection{Projection Prospective of OLS}
+Now we view our matrix $X$ in terms of its columns $x_1, \dots, x_d$. 
+Multiplying a $\boldsymbol{Xw} = \sum_{i=1}^d w_ix_i$ is a linear combination of the 
+vectors $x_1, \dots, x_d$ using weights $w_1, \dots, w_d$.
+Our objective is to minimize $\parallel y- \boldsymbol{Xw} \parallel^2$. In other words, we are seeking the $w \in \RR^d$ such that  $\boldsymbol{Xw}$ is as close as possible to $y$ in $L^2$ norm.
+Let $e = y - \boldsymbol{Xw}$; now $\boldsymbol{w}$ is a solution if and only if $e^T \boldsymbol{X}u = 0, \forall u \in \RR^d$\footnote{the vector $e$ is orthogonal to any vector in the span of column space of matrix $X$, i.e., $e^Tx =0$ }.
+This amounts to $x^T(\underbrace{y-xw}_{= e}) = 0$, i.e., $x^Txw = X^Ty$ as before.
+
+\subsection{Occam's razor approach}
+If there are infinitely many solutions, one approach is to choose the one with min norm (form of "Occam's razor"). 
+Since our solutions are of the form $w = \alpha_i u_i + \sum_{i > 1}(\beta_1 \lambda_i)u_i$, the solution with minimum norm is 
+$$
+w = \sum_{i > 1} \frac{\beta_i}{\lambda_i}u_i,
+$$
+obtained by letting $\alpha_1 = 0$
+
+\subsection{Regularized Least Square}
+We can also seek a minimum norm solution using \vocab{regularization}.
+In regularized least squares (RLS) we modify the objective function with a penalty term to control for "complexity" 
+$$
+\underset{w}{min} \parallel \SY - \SX w \parallel^2 + \gamma \parallel w \parallel^2
+$$
+where $\gamma \geq 0$ is a hyper-parameter that specifies how much the norm of $w$ maters.
+
+\note{
+The regularized objective function has a minimum when
+$$
+(\SX^T \SX + \gamma I)w = \SX^T \SY
+$$
+And if $\gamma >0$ then $\SX^T \SX + \gamma I$ is guaranteed to be invertible since all eigenvalues $\lambda_i + \gamma > 0$
+}
+
+\subsection{Recursive Least Squares}
+\vocab{Recursive least squares} (RecLS) is \textit{online} version of OLS where we update the least square coefficients based on the arrival of new data. Its a is well-known \textit{adaptive filtering} algorithm and it has connections to Kalman filter. We assume that we have $n$ data at time $n$.
+
+ \begin{align}
+    \SX_{(n)} &= \begin{bmatrix}
+           x_{1}^T \\
+           x_{2}^T \\
+           \vdots \\
+           x_{n}^T
+         \end{bmatrix}, 
+    \SY_{(n)} = \begin{bmatrix}
+           y_{1} \\
+           y_{2} \\
+           \vdots \\
+           y_{n}
+         \end{bmatrix}
+  \end{align}
+Now we assume that a new observation comes in at time $t = n+1$ so our new data matrix is 
+\begin{align}
+    \SX_{(n+1)} &= \begin{bmatrix}
+           x_{1}^T \\
+           x_{2}^T \\
+           \vdots \\
+           x_{n}^T \\
+           x_{n+1}^T
+         \end{bmatrix}, 
+    \SY_{(n+1)} = \begin{bmatrix}
+           y_{1} \\
+           y_{2} \\
+           \vdots \\
+           y_{n} \\
+           y_{n+1}
+         \end{bmatrix}
+  \end{align}
+We would now like to compute 
+$$
+w_{n+1} = (\SX_{(n+1)}^T \SX_{(n+1)})^{-1} \SX_{(n+1)}^T \SY_{(n+1)}
+$$
+Should we compute this $w_{n+1}$ from scratch? or can we somehow leverage
+previous computations to compute the new $w_{n+1}$.
+To simply we define new notation:
+$$
+C : =  \SX_{(n+1)} = \begin{bmatrix}
+           C_{0} \\
+           C_{1}
+         \end{bmatrix}
+         \quad \text{and} \quad 
+         b := \SY_{(n+1)} = \begin{bmatrix}
+           b_{0} \\
+           b_{1}
+         \end{bmatrix}
+$$
+Now we let 
+\begin{align}
+    w_{n+1} &= \underbrace{(\SX_{(n+1)}^T \SX_{(n+1)})^{-1} }_{:=  P_{n+1}}
+    \underbrace{\SX_{(n+1)}^T}_{= C^T} 
+    \underbrace{\SY_{(n+1)}}_{= b}
+    = P_{n+1} C^T b 
+\end{align}
+Likewise, 
+\begin{align}
+    w_{n} &= \underbrace{(\SX_{(n)}^T \SX_{(n)})^{-1} }_{:=  P_{n}}
+    \underbrace{\SX_{(n)}^T}_{= C_0^T} 
+    \underbrace{\SY_{(n+1)}}_{= b_0^T}
+    = P_{n} C_0^T b_0 \iff P_n^{-1}w_n = C_0^{T}b_0^T 
+\end{align}
+Now a fact about block matrices is:
+\begin{align}
+    C^TC = C_0^T C_0 + C_1^T C_1^T \text{ and } 
+    C^Tb = C_0^T b_0^T + C_1^Tb_1^T
+\end{align}
+
+Therefore,
+$
+w_{n+1} =  P_{n+1} C^T b  \iff w_{n+1} = P_{n+1} 
+[\underbrace{C_0^T b_0^T}_{=P_n^{-1}w_n} + C_1^Tb_1^T],
+$
+$$
+\implies w_{n+1} = P_{n+1} [P_n^{-1}  w_n + C_1^Tb_1^T]
+$$
+And since  $
+P_{n+1} = (C^TC)^{-1} \iff P_{n+1}^{-1} = C^TC \iff
+P_{n+1}^{-1} = \underbrace{C_0^T C_0}_{P_n^{-1}} + C_1^T C_1^T 
+\iff P_{n+1}^{-1} = P_n^{-1} + C_1^T C_1^T 
+$, we have 
+$$
+P_n^{-1} = P_{n+1}^{-1} - C_1^T C_1^T 
+$$
+
+Combing the facts we get,
+\begin{align*}
+    w_{n+1} = P_{n+1} [(P_{n+1}^{-1} - C_1^T C_1^T)w_n + C_1^Tb_1^T]
+    = w_n + P_{n+1}C_1^T(b_1 -C_1w_n)
+\end{align*}

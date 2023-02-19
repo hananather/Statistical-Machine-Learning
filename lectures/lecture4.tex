@@ -1,0 +1,21 @@
+\newpage
+\section{January 18, 2022}
+\term{What is learning algorithm?} \\
+A \textbf{supervised learning algorithm} $A$ is a way of choosing $f \in \SF$ based on data $\bar{z} \in Z^n$. We can view the learning algorithm as a map
+$A: Z^n \to \SF$, where $A: \bar{z} = (z_1, \dots, z_n) \mapsto f_{\bar{z}, A}$. And evaluate learning algorithms, $A$, by how much they can minimize $\SR(f)$.
+\begin{definition}[Bayes Error, Best in class]
+    There are essentially three levels at which we can view our function $f$ at: $f_*, f_{\SF}, f_{\SF,n A} = A(\bar{z})$.
+    \begin{itemize}
+        \item \textbf{Considering all any measurable  function:} Let $f_{*}$ be the minimizer of $\SR(f) = \EE_{p}V(f,z)$. This is the lowest possible error rate for any classifier. $\SR(f_{*})$ is the \vocab{Bayes error.}
+        \item \textbf{$A$ only operates within $\SF$:} Since the learning algorithm only operates within $\SF$, let $f_{\SF}$ be minimizer of $\SR(f)$ over $\SF$.
+        \item \textbf{$A$ only sees $\bar{z}$ not $p$:} The classifier we obtain denoted by $f_{\SF,n A} = A(\bar{z})$ this depends on the sample $\bar{z}$ and the size of the sample $n$.
+    \end{itemize}
+\end{definition}
+The \textbf{generalization error} is the difference between $\SR(f_*)$ and $\SR(f_{\SF,n A})$. The \textbf{estimation error} is difference between $\SR(f_{\SF})$ and $\SR(f_{\SF,n A})$. And the \textbf{approximation error} is the difference between $\SR(f_*)$ and $\SR(f_{\SF})$.
+$$
+\text{generalization error = estimation error + approximation error}
+$$
+\subsection{Bayes Optimal}
+\begin{proposition}
+    Given $V(f,z) = (f(x) - y)^2$, $f_* = \EE_p[y|x]$ is the \vocab{Bayes optimal}..
+\end{proposition}

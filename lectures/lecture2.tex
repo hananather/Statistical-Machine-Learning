@@ -1,3 +1,4 @@
+\newpage
 \section{January 11, 2023}
 \subsection{OLS as ERM}
 \textbf{Regression} is class of statistical/computational methods that seek to estimate relationships between a dependent (target) variable and independent variables (instances/features/inputs).
@@ -11,11 +12,28 @@ Now given a data set of input variables $\bx$ and labels $y$, how can we reasona
 There are many different loss functions to find the weight vector $w \in \RR^d$
 The \textbf{least squares or L2 loss} is $V(f,z) = (y - f(x))^2$. In this setting  we let $X = \RR^d$ and $Y \subset \RR$. 
 \subsection{Mathematical formalization of linear regression}
-We store the data into two matrices: $y$ is an $m \times 1$ column vector containing \textit{labels}, and $X$ is a $m \times d$ matrix containing \textit{inputs} or \textit{features}. We define an \textit{objective function} on $\RR^d$
+We store the data into two matrices: $\SY$ is an $m \times 1$ column vector containing \textit{labels}, and $\SX$ is a $m \times d$ matrix containing \textit{inputs} or \textit{features}.
+We perform \textbf{empirical risk minimization} for the \textbf{squared loss} $V(f,z) := (y -f(x))^2$, with $z = (x,y)$. The \textit{optimization} problem is defined as 
+$$
+\underset{w}{\text{min}}\sum_{i=1}^{m}(y_i - w \cdot x_i)^2 \quad \text{or} \quad \underset{\text{argmin }w}{\text{min}} \parallel\SY - \SX w \parallel^2
+$$
+
+
+We define an \vocab{objective function} on $\RR^d$
 
 \begin{equation}\label{OLS objective}
-    J(w) = \parallel y - w\cdot x \parallel^2
+    J(w) &= \parallel y - w\cdot x \parallel^2 \\    
 \end{equation}
+
+\begin{align*}
+    J(w) &= (\SY -\SX w)^T(\SY - \SXw) \\
+    &= \SY^T \SY -2w^T \SX^T \SY + w^T\SX^T \SX w
+\end{align*}
+By differentiation we find that the gradient of the smooth function $J(w)$ is zero iff the matrix equations is satisfied
+$$
+(\SX^T\SX)w  = \SX^T \SY
+$$
+\term{How do we know there exists a minimizer?}\\
 The $w$ which minimizes (\ref{OLS objective}) $\Leftrightarrow$ solves $Aw = b$ where $b = X^Ty$ and $A = X^TX$. 
 Let $\SM = \{w|Aw =b \}$ be the set of minimizers (\ref{OLS objective}) and let 
 $\SN =$ ker $A \subset \RR^d$. Since $A = X^TX$ is a symmetric matrix by construction, we know from linear algebra that $\SN \perp$ Col $A$. Therefore,  $b = X^Ty \in $ Col$(A)$, which implies there exists at least one minimizer to (\ref{OLS objective}) or equivalently, $\SM \neq \varnothing$
@@ -26,19 +44,34 @@ $\SN =$ ker $A \subset \RR^d$. Since $A = X^TX$ is a symmetric matrix by constru
 \subsection{Linear Algebra facts}
 Properties of Gram matrix:
 \begin{itemize}
-    \item $A = X^T X$ is called the \vocab{gram matrix}
-    \item $A$ is a \textit{symmetric} matrix (i.e., $A^T = A$). This implies that null$(A)$ $\perp$ Col$(A)$ and there exists an orthonormal basis.
+    \item $A = X^T X$ is called the \vocab{gram matrix} of $X$, its a matrix of inner products of $d$ columns of $X$. These columns are called column vectors in $\RR^m$, and we denote them $x_1, \dots, x_d$.
+    \item $A$ is a \textit{symmetric} matrix (i.e., $A^T = A$). This implies that null$(A)$ $\perp$ Col$(A)$ and there exists an orthonormal basis. ($u \dot Aw = u^T Aw = u^TA^Tw = (Au)^Tw = Au \dot w$)
     \item $A = \sum_{i}x_ix_{i}^T$ is the sum of rank $1$-matrices.
     \item $A$ is \textbf{semi-definite} ($u^TAu \geq 0$)
-    \item Nullspace of $A$ coincides with null space of $X$; Null(X) = Null(A) = $\{v \in \RR^d : Av =0\}$
-    \item $X^T X$ is invertible $\iff$ $X$ is invertible $\iff$ $X$ has a null space of dimension zero $\iff$ all columns of $X$ are independent
+    \item Nullspace of $A$ coincides with null space of $X$; Null(X) = Null(A) = $\{v \in \RR^d : Av =0\}$. $X^T X$ is invertible $\iff$ $X$ is invertible $\iff$ $X$ has a null space of dimension zero $\iff$ all columns of $X$ are independent
     \item The \textit{inverse} of non-square matrices is not defined. The \textbf{left inverse} is given by $X^{\dag} := (X^TX)^{-1}X^T $
 \end{itemize}
-When solving the equation $Aw =b$ there are three possibilities: (1) There exists a unique solution if $A$ is invertible (2) infinitely many solutions if $b \perp$ null($A$) (3) No solutions when $b \not\perp$ null($A$). Since in the OLS case $b = X^Ty$ the condition $b \perp$ null($A$) is always satisfied.\footnote{Thus we always have at least one solution to OLS}
+When solving the equation $Aw =b$ there are three possibilities:
+\begin{enumerate}
+    \item [(1)] There exists a unique solution if $A$ is invertible
+    \item [(2)] infinitely many solutions if $b \perp$ null($A$), or equivalently $b \in \text{Col}(A)$ 
+    \item [(3)] No solutions when $b \not\perp$ null($A$)
+\end{enumerate}
+\term{How do we know there always exists a solution to OLS?}
+Since in the OLS case $b = X^Ty$ the condition $b \perp$ null($A$) is always satisfied.\footnote{Thus we always have at least one solution to OLS}, the third case never occurs for us. Indeed, $(X^T\SY)^T v = \SY^T \SX v$ and this is non-zero when $v \in \SN$. This means we always have one solution.
+
+\subsection{Column Perspective}
+$\SX w$ is the linear combination of $d$ vectors $\texttt{x}_1, \dots, \texttt{x}_d$ using the weights  $w_1, \dots,w_d$. Our orginal optimization problem was to find $w$ such that $\SX w$ is as close to $\SY$ in squared norm ($\parallel \SY - \SX w \parallel^2$). In other words, we are looking weights $w$ such that the point $\SX w \in S =  \text{span} \{\texttt{x}_1, 
+\dots, \texttt{x}_d \}$ is closest to $\SY$. The unique in $S$ that is closest to $\SY$ is the projection of $\SY$ on to the space $S$. \term{Is there a unique weighting $w$ of $\texttt{x}_1, \dots, \texttt{x}_d$?} Whether or not if there is a unique weighting of $w$ of $\texttt{x}_1, \dots, \texttt{x}_d$ depends on if the vectors $\texttt{x}_1, \dots, \texttt{x}_d$ are linearly independent. If they are not linearly independent, there are infinitely many different weightings $w$ that will give the same point $p = \SX w$, and these $w$ just differ by the elements of $\SN$. 
+
+
 \subsection{Spectral decomposition}
+We use the spectral decomposition to \textit{understand} solutions to OLS when $A$ is not invertible. 
+\note{Since $A$ is a real-symmetric matrix, their exits an orthonormal basis $\{u_1, \dots, u_d\}$ for $\RR^d$  consisting of eigenvectors of $A$\footnote{This is known as the ``spectral theorem for symmetric matrices"}}
 \begin{itemize}
-    \item We have \textit{basis of eigenvectors} $u_1, u_2, \dots$ for $A$; 
+    \item We denote the \textit{basis eigenvectors} as $u_1, u_2, \dots$ for $A$; where each eigenvector $\lambda_i$ is associated to $u_i$; (i.e., $Au_i = \lambda_i u_i$)
     real eigenvalues $\lambda_i \geq 0$, indexed in ascending order
+    \item Since $A$ is positive semi-definite, all $\lambda_i \geq 0$; $u^TAu \geq 0$ for all $u \in \RR^d$, so in particular $u_i^T A u_i \geq 0$ but this is $\lambda_i$. 
     \item $\SN$ is span span of $u_i$ with $\lambda_i = 0$, let $r =$dim($\SN$).
     \item In terms of basis $\{u_i\}$, write $w = \sum \alpha_i u_i$ and $b = \beta_i u_i$.
     \item Matrix equation $Aw = b$ can be re-written in terms of eigenvalues and eigen vectors

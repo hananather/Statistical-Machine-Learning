@@ -1,0 +1,29 @@
+\newpage
+\section{January 30, 2023}
+\subsection{Loss functions for classification}
+ Thus far we have considered regression, now we study classification. In classificaion we are studying \textit{discrete value-functions}, and consider the case wehre $Y = \{-1, +1 \}$.
+\begin{itemize}
+    \item the square loss $V(w,y) = (w-y)^2 = (1-wy)^2$
+    \item hinge loss $V(w,y) = max\{1-wy,0\} =: |1-wy|_{+}$
+    \item logistic loss $V(w,y) = (\text{ln}2)^{-1}\text{ln}(1+e^{-wy})$
+\end{itemize}
+Looking for $\underset{f \in \SF}{\text{min}} \sum_{i=1}^{n} V(f,z_i)$ is an intractable combinatorial problem for $0-1$ loss \footnote{What does this mean?}. Is this because we would have to consider all possible signs of our data points? 
+\\ 
+Instead of trying to do ERM on the $0-1$ loss, 
+We solve this problem by 
+\begin{enumerate}
+    \item approximating the solutions
+    \item surrogate $V(f,z_i)$ and minimize this \footnote{go over this? what are these two approaches exactly?}
+\end{enumerate}
+We rewrite the $0-1$ loss
+$$
+V_{0:1}(f,z) = \frac{1-\text{sgn}(yf(x))}{2} 
+$$
+The way we have defined $t$:
+\begin{itemize}
+    \item if $t > 0$ this implies that the data is assigned to the correct category.
+    \item on the other hand if $t < 0$ this implies that the data is assigned to the wrong category.
+    \item value to $t$ is called the \textbf{margin} because it indicates how far the data point is from the decision boundary.
+
+\end{itemize}
+where $t= yf(x)$ is called the \textbf{margin}.

@@ -1,0 +1,22 @@
+\newpage
+\section{LDA continued}
+The core idea behind LDA is that we want to project the data such that the points of two classes are ``maximally separated".
+Recall that, we denote \vocab{projected samples} as $y_i = v^t x_i$. And we compute the scatter for project samples of class 1 and 2. 
+\note{Fisher linear discriminant is to project on a line in the direction of $v$ which maximizes 
+$$
+J(\boldsymbol{v}) = \frac{(\Tilde{\mu_1} - \Tilde{\mu_2})^2}{\Tilde{s_1}^2  + \Tilde{s_2}^2}
+$$
+If we fine $v$ which makes $J(\boldsymbol{v})$ large, we are guaranteed that the classes are well separated.
+}
+\begin{definition}[LDA Objective Function]
+    The objective function of Fisher Linear Discriminant can be written as:
+    \begin{align*}
+        J(\boldsymbol{v}) &= \frac{(\Tilde{\mu_1} - \Tilde{\mu_2})^2}{\Tilde{s_1}^2  + \Tilde{s_2}^2} 
+        = \frac{\boldsymbol{v}^t S_B \boldsymbol{v}}{\boldsymbol{v}^T S_W \boldsymbol{v}}
+    \end{align*}
+\end{definition}
+    Note the invariance of $J(\boldsymbol{v})$ to re-scaling $\boldsymbol{v}$ so we can instead restate the optimization as:
+    $$
+    \text{max} \quad \boldsymbol{v}^t S_B \boldsymbol{v} \quad \text{subject to } 
+    \quad \boldsymbol{v}^T S_W \boldsymbol{v} = 1
+    $$

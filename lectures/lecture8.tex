@@ -1,0 +1,41 @@
+\section{February 1, 2023}
+\subsection{Support Vector Machines}
+\centerline{$\underset{w,b}{\text{min}} \frac{1}{2} \|\mathbf{w}\|^2 $}
+$$\text{subject to: } y_i(\mathbf w \cdot \mathbf x + b) - 1 \geq 0$$
+We now introduce Lagrange variables $\alpha_i \geq 0, i \in [m]$, associated to the $m$ constraints. The Lagrangian can then be defined for all $\boldsymbol w \in \RR^n, b \in \RR$ and $\alpha \in \RR^m_{+}$, by 
+$$
+\SL(\mathbf{w},b,\alpha) = \frac{1}{2} \|\mathbf{w}\|^2 - 
+\sum_{i=1}^{m}\alpha_i [y_i(\mathbf{w} \cdot \mathbf x + b) - 1)]
+$$
+The KKT conditions are obtained by setting the gradient of the Lagrangian with respect to the primal variables $\mathbf{w}$ and $b$ to zero and by writing the complementary conditions:
+
+\begin{align*}
+    \nabla_{w} \SL = \mathbf{w} - \sum_{i=1}^{m}\alpha_i y_i \mathbf{x}_i = 0 \quad &\implies \quad \mathbf{w} = \sum_{i=1}^{m}\alpha_i y_i \mathbf{x} \\
+    \nabla_{b} \SL = -\sum_{i=1}^{m}\alpha_i y_i = 0 \quad
+    &\implies \quad
+    \sum_{i=1}^{m}\alpha_i y_i = 0 \\
+    \alpha_i [y_i(\mathbf{w} \cdot \mathbf x + b) - 1)] = 0 \quad &\implies \quad \alpha = 0 \lor y_i(\mathbf{w} \cdot \mathbf x + b) = 1
+\end{align*}
+From the last condition we can see that if $\alpha \neq 0$, then $y_1(w \cdot x_i +b ) =1$. 
+
+\subsection{Non-separable Case}
+Practically speaking, the training data is not linearly separable, which implies that  for any hyper plane $\mathbf{w} \cdot \mathbf{x} +b =0$, there exists $\mathbf{x}_i \in S$ such that
+$$
+y_i[\mathbf{w} \cdot \mathbf{x}_i +b] \ngeq 1.
+$$
+Therefore we use a relaxed version of the constraints for each $i \in [m]$, there exists a $\xi_{i} \geq 0$ such that 
+$$
+y_i[\mathbf{w} \cdot \mathbf{x}_i +b] \geq 1 - \xi_i
+$$
+The variables $\xi_i$ are known as \vocab{slack variables}. A slack variable $\xi_{i}$ measures the distance by which vector 
+$\mathbf{x}_i$ violates the inequality $y_i[\mathbf{w} \cdot \mathbf{x}_i +b] \geq 1$.
+
+\subsection{Primal optimization problem}
+$$\underset{w,b, \xi}{\text{min}} \frac{1}{2} \|\mathbf{w}\|^2 + C \sum_{i=1}^{m} \xi_i$$
+$$\text{subject to: } y_i(\mathbf w \cdot \mathbf x + b)  \geq 
+1 - \xi_i, \xi_{i} \geq 0, i \in [m],$$
+The parameter $C$ determines the trade-off between margin-maximization  and the minimization of the slack penalty.
+\begin{itemize}
+    \item As $C \to \infty$ any non-zero $\xi_i$ will be forced to 0, therefore, each of the finitely many data points is prevented from being an outlier and attain the hard margin classifier.
+    \item Therefore, the higher the value of $C$ the less slack we are giving the data points.
+\end{itemize}
