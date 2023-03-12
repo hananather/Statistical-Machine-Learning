@@ -1,0 +1,55 @@
+\section{February 15, 2023}
+In class we covered the example of Axis-aligned rectangles algorithm that made no errors on the training set $S$. We leveraged this property in our proof for the example. 
+\\
+In general we say that a hypothesis $h$ is \vocab{consistent} with the sample $S$ if it makes no errors on that sample. 
+\\
+We say an \vocab{algorithm is consistent} is for every sample $S$, it returns a hypothesis $h_S$ which is consistent. For an algorithm $\SA$ to be consistent, we need $C$ to be a subset of $H$, which is known as the \vocab{realizable setting}. In this case, the approximation error is zero. 
+
+\begin{theorem}[Learning bounds -- finite $H$, consistent case]
+    Let $H$ be a finite set of functions mapping from $\SX$ to $\SY$. Let $\SA$ be an algorithm that for any target concept $c \in H$ and $i.i.d$ sample $S$ returns a consistent hypothesis $h_S: \hat{R}(h_S) = 0$. Then, for any $\eps$, $\delta >0$, the inequality $\underset{S \sim \SD^m}{\PP}[R(h_S) \leq \eps] \geq 1 - \delta$ holds if 
+    $$
+    m \geq \frac{1}{\eps} \left(log|H| + log \frac{1}{\delta}
+    \right)
+    $$ 
+\end{theorem}
+\begin{proof}
+\end{proof}
+\textbf{Any finite concept class is PAC learnable by consistent algorithm.}
+For axis aliged rectangles we required
+$$
+m \geq \frac{4}{\eps} log \frac{4}{\delta}
+$$
+but in that case the hypothesis class was infinite.
+
+\begin{corollary}
+    Fix $\eps >0$ and $S$ denote $i.i.d.$ sample of size $m$. 
+    Then for any hypothesis $h:X \to \{0,1\}$, the following inequalities hold:
+    $$
+    \underset{S \sim \SD^m}{\PP}[\hat{R}(h_S)-R(h_S) \geq \eps] \leq exp (-2m\eps^2)
+    $$
+    $$
+    \underset{S \sim \SD^m}{\PP}[\hat{R}(h_S)-R(h_S) \leq -\eps] \leq exp(-2m\eps^2)
+    $$
+    By the union bound, this implies the following two-sided inequality:
+    $$
+    \underset{S \sim \SD^m}{\PP}[\hat{R}(h_S)-R(h_S) \geq -\eps] \leq 2exp(2m\eps^2)
+    $$
+\end{corollary}
+\term{include Hoeffiding inequality}
+\begin{corollary}[Generalization bound- single hypothesis]
+    Fix hypothesis $h: \SX \to \{0,1\}$.  Then for any $\delta >0$, the following inequality holds with with probability at least:
+    $$
+    R(h_S) \leq \hat{R}(h_S) + \sqrt{\frac{log \frac{2}{\delta}}{2m}}
+    $$    
+\end{corollary}
+
+\begin{theorem}[Learning bounds -- finite $H$, inconsistent case]
+
+Let $H$ be a finite hypothesis set. hen for any $\delta >0$, the following inequality holds with with probability at least:
+    $$
+    R(h_S) \leq \hat{R}(h_S) + \sqrt{\frac{log |H| + log \frac{2}{\delta}}{2m}}, \quad h \in H
+    $$    
+    This implies that generalization error is proportional to the 
+    square root of ratio of bitsize $H$ to sample size $m$ and it drops as $1/ \sqrt{m}$
+\end{theorem}
+This theorem indicates that any finite concept class can also be PAC learned by inconsistent algorithm but with possibly a lower learning rate. 

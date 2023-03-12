@@ -6,12 +6,19 @@ $A: Z^n \to \SF$, where $A: \bar{z} = (z_1, \dots, z_n) \mapsto f_{\bar{z}, A}$.
 \begin{definition}[Bayes Error, Best in class]
     There are essentially three levels at which we can view our function $f$ at: $f_*, f_{\SF}, f_{\SF,n A} = A(\bar{z})$.
     \begin{itemize}
-        \item \textbf{Considering all any measurable  function:} Let $f_{*}$ be the minimizer of $\SR(f) = \EE_{p}V(f,z)$. This is the lowest possible error rate for any classifier. $\SR(f_{*})$ is the \vocab{Bayes error.}
-        \item \textbf{$A$ only operates within $\SF$:} Since the learning algorithm only operates within $\SF$, let $f_{\SF}$ be minimizer of $\SR(f)$ over $\SF$.
-        \item \textbf{$A$ only sees $\bar{z}$ not $p$:} The classifier we obtain denoted by $f_{\SF,n A} = A(\bar{z})$ this depends on the sample $\bar{z}$ and the size of the sample $n$.
+        \item $f_*:$ the function that minimizes the risk $\SR(f)= \EE_{p}V(f,z)$ over the class of all any measurable  function over the distribution $P$. And $\SR(f_{*})$ is the \vocab{Bayes error.}
+
+        \item $f_{\SF}$: the function that minimizes risk $\SR(f)$ over some \textit{restricted class} $\SF$ of measurable functions for the distribution $P$. \textbf{$A$ only operates within $\SF$}.
+
+        \item $f_{\SF,n A} = A(\bar{z})$: the function produced by the algorithm A, on sample $\bar{z} = (z_1, \dots, z_n)$ from $P^n$ \footnote{in fact this is an abuse of notation and $f_{\SF,\bar{z}, A}$ would be more precise  since the algorithm sees a specific sample $\bar{z}$. However, the notation is emphasizing the fact that the function depends on the algorithm $A$ handing a $n-$sample from $P$.}
     \end{itemize}
 \end{definition}
-The \textbf{generalization error} is the difference between $\SR(f_*)$ and $\SR(f_{\SF,n A})$. The \textbf{estimation error} is difference between $\SR(f_{\SF})$ and $\SR(f_{\SF,n A})$. And the \textbf{approximation error} is the difference between $\SR(f_*)$ and $\SR(f_{\SF})$.
+\begin{itemize}
+    \item \textbf{generalization error} = $\SR(f_{\SF,n A}) - \SR(f_*)$
+    \item \textbf{estimation error} = $\SR(f_{\SF,n A}) - \SR(f_\SF)$
+    \item \textbf{approximation error} = $\SR(f_\SF) - \SR(f_*)$
+    
+\end{itemize}
 $$
 \text{generalization error = estimation error + approximation error}
 $$

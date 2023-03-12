@@ -1,0 +1,61 @@
+\subsection{February 8, 2023}
+\subsection{Learning Theory}
+In the field of theoretical machine learning, learning theory serves as a framework for investigating fundamental questions related to machine learning. These may include:
+\begin{itemize}
+    \item inquiries into the effectiveness of different learning algorithms
+    \item the complexity of various learning tasks
+    \item The amount of data required to learn well
+    \item the development of general principles that govern the learning process in different contexts
+\end{itemize}
+\subsection{Probably Approximately Correct (PAC) Learning}
+
+PAC learning (Probably Approximately Correct learning) is a framework in machine learning that aims to provide theoretical guarantees on the ability of an algorithm to generalize well from a limited amount of training data.
+The basic idea is that a learning algorithm is considered \textbf{PAC-learnable} if it can efficiently learn a \vocab{concept} that is ``probably" correct (i.e., has a high probability of being accurate) and ``approximately" correct (i.e., the learned concept is not too far from the true concept) given a limited number of training examples. The PAC framework provides a mathematical basis for analyzing the sample complexity of learning algorithms, which is the minimum number of training examples required to achieve a certain level of accuracy. 
+
+In the binary classification setting, let 
+$Y =\{0,1\}$ \footnote{Its important to notice that the PAC learning framework uses the $0-1$ loss function. Before when we were defining risk, we were considering many different types of loss functions, now we are only considering the $0-1$ loss}
+be the binary labels. Our goal is to learn a map $f: X \to Y$ with low risk.
+\\
+PAC Learning terms:
+\begin{itemize}
+    \item \vocab{concept} can be represented as a Boolean $c: X \to \{0,1\}$, where $X$ is the input space
+    \item Given a set of training examples 
+    $$
+    S = \{(x_1,c(x_1)), \dots, (x_m,c(x_m))\}
+    $$
+    where $x_i$ is the data point and $c(x_i)$ is the corresponding label
+    \item The goal of PAC learning is to output a \vocab{hypothesis}, $h: X \to \{0,1\}$ that is ``probably" correct with high probability $(1-\delta)$, and ``approximately" correct in the sense that error between $h$ and $c$ is not too large, $\leq \eps$
+\end{itemize}
+In PAC learning concept refers to the underlying function or patterns that generates the observed data.
+
+
+\begin{definition}[Generalization Error]
+    Given a hypothesis $h \in \SH$, a target concept $c \in \SC$, and an underlying distribution $\SD$, the generalization error or risk of $h$ is defined by 
+    $$
+    R(h) =  \underset{x \sim \SD}{\PP} [h(x) \neq c(x)] = \underset{x \sim \SD}{\EE} [1_{h(x) \neq c(x)}],
+    $$
+    where $1_{\omega}$ is the indication function.
+\end{definition}
+Since the distribution $\SD$ and the target concept class $c$ are unknown to the learner, the generalization error is not accessible to the learner.
+
+We define the hypothesis class $\SH$ to be the set all classifiers considered by the learning algorithm. 
+\term{Is hypothesis relative to a learning algorithm?}
+Yes, if we are studying neural networks, then we would consider $\SH$ to be the set of all classifiers representable by some neural architecture.  
+
+\begin{definition}[PAC learning]
+    A concept class $C$ is said to be \vocb{PAC-learnable}
+    if there exists an algorithm $\SA$ and polynomial function $poly(\cdot, \cdot, \cdot)$ such that for any $\eps$ and $\delta$, for all distributions $D$ on $\SX$ and for any target concept $c \in C$, the following holds for any sample size $m \geq poly(1/ \eps, 1/ \delta, size(c))$\footnote{Sometimes $size(c)$ is omitted from the defintion when computational representation is of concepts is straight forward or not considered}
+    :
+
+    $$
+     \underset{S \sim \SD^m}{\PP}[R(h_S) \leq \eps] \geq 1 - \delta
+    $$
+    If $\A$ further runs in $poly(1/ \eps, 1/ \delta, size(c))$, then $C$ is said to be efficiently PAC-learnable. When such an algorithm $\SA$ exists, its called a PAC-learning algorithm for $C$.  
+\end{definition}
+
+ In otherwords, the concept class $C$ is PAC learnable by the algorithm $\SA$ if after seeing a number examples polynomial in
+$1/ \eps$ and $1 / \delta$, $\SA$ returns an approximately correct (Accuracy $\geq 1- \eps$) $h$ with high probability (Prob $\geq 1-\delta$).
+Its important to note that this is a distribution-free worst case analysis, where $D$ is arbitrary
+
+We are allow the algorithm some exposure to the distribution $D$ through its training, and  what we are asking is how well can the algorithm use that exposure to an arbitrary distribution $D$ in order to make a low risk prediction. 
+    
